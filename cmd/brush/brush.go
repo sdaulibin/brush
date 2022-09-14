@@ -25,7 +25,7 @@ var (
 )
 
 const (
-	defaultConfig = "/etc/myapp/config.ini"
+	defaultConfig = "/etc/brush/config.ini"
 )
 
 //func init() {
@@ -36,7 +36,7 @@ const (
 func usage() {
 	s := `
 USAGE:
-   myapp command [command options] 
+   brush command [command options] 
 
 
 COMMANDS:
@@ -48,7 +48,7 @@ COMMANDS:
 
 OPTIONS:
      -config string
-       	config file of the service (default "/etc/myapp/config.ini")
+       	config file of the service (default "/etc/brush/config.ini")
      -user string
        	user account to run the service
      -workingdir string
@@ -60,7 +60,7 @@ OPTIONS:
 func init() {
 	installCommand.StringVar(&user, "user", "", "user account to run the service")
 	installCommand.StringVar(&workingdir, "workingdir", "", "working directory of the service")
-	installCommand.StringVar(&config, "config", "/etc/myapp/config.ini", "config file of the service")
+	installCommand.StringVar(&config, "config", "/etc/brush/config.ini", "config file of the service")
 	runCommand.StringVar(&config, "config", defaultConfig, "config file of the service")
 	flag.Usage = usage
 }

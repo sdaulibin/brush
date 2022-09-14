@@ -11,10 +11,10 @@ import (
 
 func getServiceConfig(subCmd string) (*service.Config, error) {
 	c := service.Config{
-		Name:             "myApp",
+		Name:             "brush",
 		DisplayName:      "Go Daemon Service Demo",
 		Description:      "This is a Go daemon service demo",
-		Executable:       "/usr/local/bin/myapp",
+		Executable:       "/usr/local/bin/brush",
 		Dependencies:     []string{"After=network.target syslog.target"},
 		WorkingDirectory: "",
 		Option: service.KeyValue{
@@ -37,7 +37,7 @@ func getServiceConfig(subCmd string) (*service.Config, error) {
 		c.WorkingDirectory = workingdir
 
 		// arguments
-		// ExecStart=/usr/local/bin/myapp "run" "-config" "/etc/myapp/config.ini"
+		// ExecStart=/usr/local/bin/brush "run" "-config" "/etc/brush/config.ini"
 		c.Arguments = append(c.Arguments, "run", "-config", config)
 	case "run":
 		runCommand.Parse(os.Args[2:]) // parse config
