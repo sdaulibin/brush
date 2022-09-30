@@ -36,9 +36,9 @@ func ScoreTotal(user model.UserInfo) (err error, score string) {
 	}
 	defer resp.Body.Close()
 	out, err := ioutil.ReadAll(resp.Body)
-	log.Println("response Body:", string(out))
-	log.Println("response Status:", resp.Status)
-	log.Println("response Headers:", resp.Header)
+	//log.Println("response Body:", string(out))
+	//log.Println("response Status:", resp.Status)
+	//log.Println("response Headers:", resp.Header)
 	var scoreTotal model.Resp
 	err = json.Unmarshal(out, &scoreTotal)
 	if err != nil {
@@ -51,7 +51,7 @@ func ScoreTotal(user model.UserInfo) (err error, score string) {
 
 func EcosysNews(user model.UserInfo) (err error, ecosysNewsId []model.Content) {
 
-	req, err := http.NewRequest("GET", "https://ecosys-web.china-inv.cn/api/content/list?qtime="+string(time.Now().UnixNano()/1e6)+"&columnId=unEcosysNews&pageNum=1&pageSize=200&needAll=true", nil)
+	req, err := http.NewRequest("GET", "https://ecosys-web.china-inv.cn/api/content/list?qtime="+string(time.Now().UnixNano()/1e6)+"&columnId=unEcosysNews&pageNum=1&pageSize=500&needAll=true", nil)
 	if err != nil {
 		fmt.Println(err)
 		return
