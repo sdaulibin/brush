@@ -23,7 +23,7 @@ func main() {
 
 func runServer(addr string) {
 	var tokens = []string{}
-	fi, e := os.Open("/Users/binginx/Downloads/token2.txt")
+	fi, e := os.Open("/Users/binginx/Downloads/token.txt")
 	if e != nil {
 		fmt.Println("read file error")
 		return
