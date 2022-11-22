@@ -9,6 +9,19 @@ import (
 	"time"
 )
 
+func Test_UserInfo(t *testing.T) {
+
+	err, userInfo := UserInfo(&model.UserInfo{
+		Token: _token,
+	}, &config.Params{
+		Params: map[string]string{
+			"qtime": strconv.Itoa(time.Now().Nanosecond()),
+		},
+	})
+	log.Println(userInfo)
+	log.Println(err)
+}
+
 func Test_Score(t *testing.T) {
 
 	err, score := Score(&model.UserInfo{
