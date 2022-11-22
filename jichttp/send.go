@@ -24,7 +24,7 @@ func assembleHeader(req *http.Request) {
 
 func ScoreTotal(user model.UserInfo) (err error, score string) {
 	log.Println("获取分数==========================")
-	req, err := http.NewRequest("GET", "https://ecosys-web.china-inv.cn/api/score/scoreTotal?qtime="+string(time.Now().UnixNano()/1e6), nil)
+	req, err := http.NewRequest("GET", "https://ecosys-web.china-inv.cn/api/score/scoreTotal?qtime="+strconv.Itoa(time.Now().Nanosecond()), nil)
 	if err != nil {
 		log.Println(err)
 		return
@@ -51,7 +51,7 @@ func ScoreTotal(user model.UserInfo) (err error, score string) {
 
 func EcosysNews(user model.UserInfo) (err error, ecosysNewsId []model.Content) {
 
-	req, err := http.NewRequest("GET", "https://ecosys-web.china-inv.cn/api/content/list?qtime="+string(time.Now().UnixNano()/1e6)+"&columnId=unEcosysNews&pageNum=1&pageSize=500&needAll=true", nil)
+	req, err := http.NewRequest("GET", "https://ecosys-web.china-inv.cn/api/content/list?qtime="+strconv.Itoa(time.Now().Nanosecond())+"&columnId=unEcosysNews&pageNum=1&pageSize=500&needAll=true", nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -79,7 +79,7 @@ func EcosysNews(user model.UserInfo) (err error, ecosysNewsId []model.Content) {
 
 func ViewNews(user model.UserInfo, news []model.Content) (err error) {
 	for _, value := range news {
-		req, err1 := http.NewRequest("GET", "https://ecosys-web.china-inv.cn/api/content?qtime="+string(time.Now().UnixNano()/1e6)+"&contentId="+strconv.Itoa(value.ContentId), nil)
+		req, err1 := http.NewRequest("GET", "https://ecosys-web.china-inv.cn/api/content?qtime="+strconv.Itoa(time.Now().Nanosecond())+"&contentId="+strconv.Itoa(value.ContentId), nil)
 		if err1 != nil {
 			fmt.Println(err1)
 			return
