@@ -6,8 +6,10 @@ import (
 	"binginx.com/brush/internal/logs"
 	"binginx.com/brush/model"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
+	"net/http"
 )
 
 func UserInfo(user *model.UserInfo, params *config.Params) (err error, jicUser *model.JicUser) {
@@ -26,6 +28,9 @@ func UserInfo(user *model.UserInfo, params *config.Params) (err error, jicUser *
 	if err2 != nil {
 		logs.Logger.Errorf(err2.Error())
 		return err2, jicUser
+	}
+	if jicUser.Code != http.StatusOK {
+		return errors.New(jicUser.Msg), nil
 	}
 	return err, jicUser
 }
@@ -48,6 +53,9 @@ func Score(user *model.UserInfo, params *config.Params) (err error, score string
 		logs.Logger.Errorf(err2.Error())
 		return err2, score
 	}
+	if scoreInfo.Code != http.StatusOK {
+		return errors.New(scoreInfo.Msg), score
+	}
 	return err, scoreInfo.Data
 }
 
@@ -69,6 +77,9 @@ func News(user *model.UserInfo, params *config.Params) (err error, ecosysNewsId 
 		logs.Logger.Errorf(err2.Error())
 		return err2, nil
 	}
+	if ecosysNews.Code != http.StatusOK {
+		return errors.New(ecosysNews.Msg), nil
+	}
 	if ecosysNews.Data != nil && len(ecosysNews.Data) > 0 {
 		return nil, ecosysNews.Data
 	}
@@ -86,6 +97,16 @@ func View(userInfo *model.UserInfo, params *config.Params) (err error) {
 		return err1
 	}
 	defer resp.Body.Close()
+	out, err2 := ioutil.ReadAll(resp.Body)
+	var viewResult model.Contents
+	err2 = json.Unmarshal(out, &viewResult)
+	if err2 != nil {
+		logs.Logger.Errorf(err2.Error())
+		return err2
+	}
+	if viewResult.Code != http.StatusOK {
+		return errors.New(viewResult.Msg)
+	}
 	logs.Logger.Infof("View response status:[%v],contentId:[%v]", resp.Status, params.Params["contentId"])
 	return
 }
@@ -101,6 +122,16 @@ func DoBehavior(userInfo *model.UserInfo, params *config.Params) (err error) {
 		return err1
 	}
 	defer resp.Body.Close()
+	out, err2 := ioutil.ReadAll(resp.Body)
+	var behaviorResult model.Contents
+	err2 = json.Unmarshal(out, &behaviorResult)
+	if err2 != nil {
+		logs.Logger.Errorf(err2.Error())
+		return err2
+	}
+	if behaviorResult.Code != http.StatusOK {
+		return errors.New(behaviorResult.Msg)
+	}
 	logs.Logger.Infof("DoBehavior response: status [%v],contentId:[%v],flag:[%v]", resp.Status, params.Params["resourceId"], params.Params["flag"])
 	return
 }

@@ -13,10 +13,6 @@ import (
 	"time"
 )
 
-const (
-	defaultConfig = "/etc/brush/config.ini"
-)
-
 func main() {
 	runServer("127.0.0.1:8080")
 }
@@ -41,7 +37,7 @@ func runServer(addr string) {
 	}
 	fmt.Println(cap(tokens))
 	router := gin.Default()
-	router.GET("/brush/token", func(c *gin.Context) {
+	router.GET("/api/token", func(c *gin.Context) {
 		start := time.Now()
 		var wg sync.WaitGroup
 		wg.Add(len(tokens))
@@ -54,7 +50,7 @@ func runServer(addr string) {
 		elapsed := time.Since(start)
 		fmt.Printf("WaitGroupStart Time %s\n ", elapsed)
 	})
-	router.GET("/brush/action", func(c *gin.Context) {
+	router.GET("/api/action", func(c *gin.Context) {
 		start := time.Now()
 		var wg sync.WaitGroup
 		wg.Add(len(tokens))
