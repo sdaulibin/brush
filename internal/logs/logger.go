@@ -30,7 +30,7 @@ func createZapLogger() *zap.Logger {
 		serviceName = "app"
 	}
 	lumberJackLogger := &lumberjack.Logger{
-		Filename:   fmt.Sprintf("/tmp/brush/logs/%v.log", serviceName),
+		Filename:   fmt.Sprintf("/Users/binginx/log/logs/%v.log", serviceName),
 		MaxSize:    200,
 		MaxBackups: 7,
 		MaxAge:     7,
