@@ -11,9 +11,11 @@ type UserInfo struct {
 
 type User struct {
 	Base
-	Name  string
-	Score int
-	Token string
+	Name       string
+	Score      int
+	Token      string
+	EmployeeID int
+	Phone      string
 }
 
 type JicUser struct {

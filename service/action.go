@@ -1,9 +1,10 @@
-package jichttp
+package service
 
 import (
 	"binginx.com/brush/config"
 	"binginx.com/brush/internal/clients"
 	"binginx.com/brush/internal/logs"
+	"binginx.com/brush/internal/service"
 	"binginx.com/brush/model"
 	"encoding/json"
 	"errors"
@@ -32,6 +33,17 @@ func UserInfo(user *model.UserInfo, params *config.Params) (err error, jicUser *
 	if jicUser.Code != http.StatusOK {
 		return errors.New(jicUser.Msg), nil
 	}
+	getUser, err := service.GetUserByPhone(jicUser.JicUserInfo.Phone)
+	if getUser == nil {
+		service.CreateUser(&model.User{
+			Name:       jicUser.JicUserInfo.Name,
+			Token:      user.Token,
+			Phone:      jicUser.JicUserInfo.Phone,
+			EmployeeID: jicUser.JicUserInfo.EmployeeID,
+		})
+	} else {
+		service.UpdateUser(getUser)
+	}
 	return err, jicUser
 }
 
@@ -55,6 +67,13 @@ func Score(user *model.UserInfo, params *config.Params) (err error, score string
 	}
 	if scoreInfo.Code != http.StatusOK {
 		return errors.New(scoreInfo.Msg), score
+	}
+	getUser, err3 := service.GetUserByToken(user.Token)
+	if err3 != nil {
+		return err3, score
+	}
+	if getUser != nil {
+		service.UpdateUserScore(getUser.Phone, scoreInfo.Data)
 	}
 	return err, scoreInfo.Data
 }
@@ -98,7 +117,7 @@ func View(userInfo *model.UserInfo, params *config.Params) (err error) {
 	}
 	defer resp.Body.Close()
 	out, err2 := ioutil.ReadAll(resp.Body)
-	var viewResult model.Contents
+	var viewResult model.ViewContent
 	err2 = json.Unmarshal(out, &viewResult)
 	if err2 != nil {
 		logs.Logger.Errorf(err2.Error())
@@ -123,7 +142,8 @@ func DoBehavior(userInfo *model.UserInfo, params *config.Params) (err error) {
 	}
 	defer resp.Body.Close()
 	out, err2 := ioutil.ReadAll(resp.Body)
-	var behaviorResult model.Contents
+	logs.Logger.Infof(string(out))
+	var behaviorResult model.Resp
 	err2 = json.Unmarshal(out, &behaviorResult)
 	if err2 != nil {
 		logs.Logger.Errorf(err2.Error())

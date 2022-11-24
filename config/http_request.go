@@ -42,5 +42,5 @@ func PrepareParams(params map[string]string) string {
 	for k, v := range params {
 		str = fmt.Sprintf(str+"%s%s%s%s", k, "=", v, "&")
 	}
-	return str[0 : strings.LastIndex(str, "&")-1]
+	return str[0:strings.LastIndex(str, "&")]
 }

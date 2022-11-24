@@ -3,6 +3,7 @@ package main
 import (
 	"binginx.com/brush/cmd/api/routers"
 	"binginx.com/brush/config"
+	"binginx.com/brush/internal/clients"
 	"binginx.com/brush/internal/logs"
 	"context"
 	"fmt"
@@ -17,6 +18,7 @@ func main() {
 	defer stop()
 	config.MustInit()
 	logs.Init()
+	clients.MustInit()
 	router := routers.Init()
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.GlobalConfig.ServerPort),

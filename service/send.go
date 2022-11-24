@@ -1,4 +1,4 @@
-package jichttp
+package service
 
 import (
 	"binginx.com/brush/model"

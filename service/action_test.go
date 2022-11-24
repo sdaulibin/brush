@@ -1,4 +1,4 @@
-package jichttp
+package service
 
 import (
 	"binginx.com/brush/config"
@@ -29,7 +29,6 @@ func Test_UserInfo(t *testing.T) {
 }
 
 func Test_Score(t *testing.T) {
-
 	err, score := Score(&model.UserInfo{
 		Token: _token,
 	}, &config.Params{
@@ -62,7 +61,7 @@ func Test_Behavior(t *testing.T) {
 		Params: map[string]string{
 			"qtime":      strconv.Itoa(time.Now().Nanosecond()),
 			"resourceId": "xxxxxx",
-			"flag":       "1",
+			"flag":       _behavior_COLLECTION,
 		},
 	}
 	err := DoBehavior(&model.UserInfo{
@@ -90,4 +89,45 @@ func Test_EcosysNews(t *testing.T) {
 	})
 	log.Println(ecosysNews)
 	log.Println(err)
+}
+
+func TestTotal(t *testing.T) {
+	newsParams := &config.Params{
+		Params: map[string]string{
+			"qtime":    strconv.Itoa(time.Now().Nanosecond()),
+			"columnId": "ecosysNews",
+			"pageNum":  "1",
+			"pageSize": "200",
+			"needAll":  "true",
+		},
+	}
+	err, ecosysNews := News(&model.UserInfo{Token: _token}, newsParams)
+	if err != nil {
+		t.Log(err)
+	}
+	for _, news := range ecosysNews {
+		viewParams := &config.Params{
+			Params: map[string]string{
+				"qtime":     strconv.Itoa(time.Now().Nanosecond()),
+				"contentId": strconv.Itoa(news.ContentId),
+			},
+		}
+		View(&model.UserInfo{Token: _token}, viewParams)
+		params := &config.Params{
+			Params: map[string]string{
+				"qtime":        strconv.Itoa(time.Now().Nanosecond()),
+				"resourceId":   strconv.Itoa(news.ContentId),
+				"userBehavior": _behavior_COLLECTION,
+			},
+		}
+		DoBehavior(&model.UserInfo{Token: _token}, params)
+		params = &config.Params{
+			Params: map[string]string{
+				"qtime":        strconv.Itoa(time.Now().Nanosecond()),
+				"resourceId":   strconv.Itoa(news.ContentId),
+				"userBehavior": _behavior_PRAISE,
+			},
+		}
+		DoBehavior(&model.UserInfo{Token: _token}, params)
+	}
 }

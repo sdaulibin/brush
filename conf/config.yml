@@ -3,7 +3,7 @@ DebugMode: true #是否处于Debug模式
 NeedPublishConfig: false #是否需要把扩缩容实例、IP信息发布到配置中心
 ServerPort: 9090
 WriteDB:
-  Name: api
+  Name: brush
   Host: 127.0.0.1
   Port: 3306
   User: root
@@ -15,7 +15,7 @@ WriteDB:
   MaxOpenConns: 30
 
 ReadDB:
-  Name: api
+  Name: brush
   Host: 127.0.0.1
   Port: 3306
   User: root

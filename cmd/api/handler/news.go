@@ -5,8 +5,8 @@ import (
 	"binginx.com/brush/cmd/api/response"
 	"binginx.com/brush/config"
 	"binginx.com/brush/internal/logs"
-	"binginx.com/brush/jichttp"
 	"binginx.com/brush/model"
+	"binginx.com/brush/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -26,7 +26,7 @@ func News(ctx *gin.Context) {
 			"needAll":  "true",
 		},
 	}
-	err, ecosysNewsIds := jichttp.News(&model.UserInfo{
+	err, ecosysNewsIds := service.News(&model.UserInfo{
 		Token: headerParams.Authorization,
 	}, params)
 	if err != nil {
@@ -41,7 +41,7 @@ func View(ctx *gin.Context) {
 	headerParams := authorization.HeaderParams{}
 	ctx.ShouldBindHeader(&headerParams)
 	logs.Logger.Infof("Token:[%v]")
-	contentId, ok := ctx.GetQuery("instance_id")
+	contentId, ok := ctx.GetQuery("contentId")
 	if !ok {
 		response.MkResponse(ctx, http.StatusBadRequest, response.ParamInvalid, nil)
 		return
@@ -53,7 +53,7 @@ func View(ctx *gin.Context) {
 			"contentId": contentId,
 		},
 	}
-	err := jichttp.View(&model.UserInfo{
+	err := service.View(&model.UserInfo{
 		Token: headerParams.Authorization,
 	}, params)
 	if err != nil {
@@ -68,13 +68,13 @@ func DoBehavior(ctx *gin.Context) {
 	headerParams := authorization.HeaderParams{}
 	ctx.ShouldBindHeader(&headerParams)
 	logs.Logger.Infof("Token:[%v]")
-	resourceId, ok := ctx.GetQuery("instance_id")
+	resourceId, ok := ctx.GetQuery("resourceId")
 	if !ok {
 		response.MkResponse(ctx, http.StatusBadRequest, response.ParamInvalid, nil)
 		return
 
 	}
-	flag, ok := ctx.GetQuery("instance_id")
+	flag, ok := ctx.GetQuery("flag")
 	if !ok {
 		response.MkResponse(ctx, http.StatusBadRequest, response.ParamInvalid, nil)
 		return
@@ -87,7 +87,7 @@ func DoBehavior(ctx *gin.Context) {
 			"flag":       flag,
 		},
 	}
-	err := jichttp.DoBehavior(&model.UserInfo{
+	err := service.DoBehavior(&model.UserInfo{
 		Token: headerParams.Authorization,
 	}, params)
 	if err != nil {

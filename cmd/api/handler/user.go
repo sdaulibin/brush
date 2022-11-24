@@ -5,8 +5,8 @@ import (
 	"binginx.com/brush/cmd/api/response"
 	"binginx.com/brush/config"
 	"binginx.com/brush/internal/logs"
-	"binginx.com/brush/jichttp"
 	"binginx.com/brush/model"
+	"binginx.com/brush/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -17,7 +17,7 @@ func UserInfo(ctx *gin.Context) {
 	headerParams := authorization.HeaderParams{}
 	ctx.ShouldBindHeader(&headerParams)
 	logs.Logger.Infof("Token:[%v]")
-	err, userInfo := jichttp.UserInfo(&model.UserInfo{
+	err, userInfo := service.UserInfo(&model.UserInfo{
 		Token: headerParams.Authorization,
 	}, &config.Params{
 		Params: map[string]string{
@@ -36,7 +36,7 @@ func Score(ctx *gin.Context) {
 	headerParams := authorization.HeaderParams{}
 	ctx.ShouldBindHeader(&headerParams)
 	logs.Logger.Infof("Token:[%v]")
-	err, score := jichttp.Score(&model.UserInfo{
+	err, score := service.Score(&model.UserInfo{
 		Token: headerParams.Authorization,
 	}, &config.Params{
 		Params: map[string]string{
