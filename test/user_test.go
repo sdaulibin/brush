@@ -1,9 +1,11 @@
-package service
+package test
 
 import (
 	"binginx.com/brush/config"
 	"binginx.com/brush/internal/clients"
+	"binginx.com/brush/internal/service"
 	"binginx.com/brush/model"
+	service2 "binginx.com/brush/service"
 	"testing"
 )
 
@@ -16,14 +18,14 @@ func Test_CreateUser(t *testing.T) {
 	clients.MustInit()
 	user := &model.User{
 		Name:  "test",
-		Token: _token,
+		Token: service2.Token,
 		Score: 5566,
 	}
-	err1 := CreateUser(user)
+	err1 := service.CreateUser(user)
 	if err1 != nil {
 		t.Log(err1)
 	}
-	getUser, err2 := GetUser(user.Token)
+	getUser, err2 := service.GetUserByToken(user.Token)
 	if err2 == nil {
 		t.Log(getUser)
 	}
