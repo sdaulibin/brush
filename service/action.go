@@ -152,6 +152,6 @@ func DoBehavior(userInfo *model.UserInfo, params *config.Params) (err error) {
 	if behaviorResult.Code != http.StatusOK {
 		return errors.New(behaviorResult.Msg)
 	}
-	logs.Logger.Infof("DoBehavior response: status [%v],contentId:[%v],flag:[%v]", resp.Status, params.Params["resourceId"], params.Params["flag"])
+	logs.Logger.Infof("DoBehavior response: status [%v],contentId:[%v],flag:[%v]", resp.Status, params.Params["resourceId"], params.Params["userBehavior"])
 	return
 }

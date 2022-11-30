@@ -102,7 +102,7 @@ func TestTotal(t *testing.T) {
 			"qtime":    strconv.Itoa(time.Now().Nanosecond()),
 			"columnId": "ecosysNews",
 			"pageNum":  "1",
-			"pageSize": "200",
+			"pageSize": "300",
 			"needAll":  "true",
 		},
 	}
