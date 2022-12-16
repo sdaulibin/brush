@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"binginx.com/brush/cmd/api/routers"
@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func main() {
+func Run() {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 	config.MustInit()
