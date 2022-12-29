@@ -28,7 +28,7 @@ func initHeader(token string) *http.Header {
 	return &http.Header{
 		"Host":            {"ecosys-web.china-inv.cn"},
 		"Accept-Encoding": {"ecosys-web.china-inv.cn"},
-		"sign":            {"fbbee325b38811c5bf83c06df62851e2"},
+		"sign":            {"d41d8cd98f00b204e9800998ecf8427e"},
 		"Referer":         {"https://ecosys-web.china-inv.cn/index.html"},
 		"User-Agent":      {"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"},
 		"Connection":      {"Keep-Alive"},

@@ -68,13 +68,13 @@ func Score(user *model.UserInfo, params *config.Params) (err error, score string
 	if scoreInfo.Code != http.StatusOK {
 		return errors.New(scoreInfo.Msg), score
 	}
-	getUser, err3 := service.GetUserByToken(user.Token)
-	if err3 != nil {
-		return err3, score
-	}
-	if getUser != nil {
-		service.UpdateUserScore(getUser.Phone, scoreInfo.Data)
-	}
+	//getUser, err3 := service.GetUserByToken(user.Token)
+	//if err3 != nil {
+	//	return err3, score
+	//}
+	//if getUser != nil {
+	//service.UpdateUserScore(getUser.Phone, scoreInfo.Data)
+	//}
 	return err, scoreInfo.Data
 }
 
