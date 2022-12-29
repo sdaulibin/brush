@@ -45,7 +45,6 @@ func Total(token string) {
 				"contentId": strconv.Itoa(news.ContentId),
 			},
 		}
-		log.Println(viewParams)
 		service.View(&model.UserInfo{Token: token}, viewParams)
 		params := &config.Params{
 			Params: map[string]string{
