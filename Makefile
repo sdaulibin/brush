@@ -1,5 +1,5 @@
 all:
-	go build -o brush ./cmd/brush/brush.go ./cmd/brush/config.go
+	go build -o brush ./cmd/cli/main.go
 clean:
 	rm -fr brush
 install:
